@@ -14,6 +14,11 @@ struct MainTabView: View {
                 .tabItem {
                     Label("Répondre", systemImage: "paperplane")
                 }
+            
+            CameraView()
+                .tabItem {
+                    Label("Caméra", systemImage: "camera")
+                }
         }
     }
 }

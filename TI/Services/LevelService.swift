@@ -8,7 +8,8 @@ class LevelService: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String? = nil
     
-    private let baseURL = "http://192.168.1.137:5001"
+    private let baseURL = "http://192.168.1.50:5001"
+    
     
     func fetchCurrentLevel() {
         guard let url = URL(string: "\(baseURL)/getLevel") else {
