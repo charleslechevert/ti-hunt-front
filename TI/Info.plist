@@ -2,8 +2,16 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationUsageDescription</key>
+	<string>This app needs your location to place Venus at GPS coordinates</string>
 	<key>NSCameraUsageDescription</key>
 	<string>This app needs camera access to show the camera view</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>6.0</string>
+	<key>CFBundleExecutable</key>
+	<string></string>
+	<key>CFBundleIdentifier</key>
+	<string></string>
 	<key>CFBundleGetInfoString</key>
 	<string></string>
 	<key>NSAppTransportSecurity</key>

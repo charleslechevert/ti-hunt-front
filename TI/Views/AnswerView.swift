@@ -3,6 +3,7 @@ import Combine
 
 struct AnswerView: View {
     @ObservedObject var levelService: LevelService
+    @Binding var selectedTab: Int
     @State private var answer: String = ""
     @State private var isSubmitting: Bool = false
     @State private var feedbackMessage: String?
@@ -10,6 +11,15 @@ struct AnswerView: View {
     @State private var showCursor: Bool = true
     
     let timer = Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()
+    
+    // Computed property for the question text based on level
+    private var questionText: String {
+        if levelService.currentLevel == 0 {
+            return "Acceptes-tu de m'aider ?"
+        } else {
+            return "Quel est le secret trouvé?"
+        }
+    }
     
     var body: some View {
         NavigationView {
@@ -57,7 +67,7 @@ struct AnswerView: View {
                             Text(" % ")
                                 .foregroundColor(.white)
                                 .terminalText()
-                            Text("Quel est le secret trouvé?")
+                            Text(questionText)
                                 .terminalText()
                         }
                         
@@ -118,6 +128,10 @@ struct AnswerView: View {
                                     Text("Niveau débloqué: \(levelService.currentLevel)")
                                         .terminalText()
                                         .foregroundColor(.cyan)
+                                    
+                                    Text("Retour à l'écoute...")
+                                        .terminalText()
+                                        .foregroundColor(.cyan.opacity(0.7))
                                 } else {
                                     Text("✗ ERROR")
                                         .terminalText()
@@ -136,25 +150,7 @@ struct AnswerView: View {
                             .padding(.vertical, 8)
                         }
                         
-                        // Help text
-                        if answer.isEmpty && feedbackMessage == nil {
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text("Aide:")
-                                    .terminalText()
-                                    .foregroundColor(.gray)
-                                    .padding(.top, 16)
-                                
-                                Text("• Tapez votre réponse et appuyez sur Entrée")
-                                    .terminalText()
-                                    .foregroundColor(.gray)
-                                    .font(.system(size: 12))
-                                
-                                Text("• La réponse est sensible à la casse")
-                                    .terminalText()
-                                    .foregroundColor(.gray)
-                                    .font(.system(size: 12))
-                            }
-                        }
+
                         
                         Spacer(minLength: 100)
                     }
@@ -226,10 +222,12 @@ struct AnswerView: View {
                     answer = ""
                 }
                 
-                // Refresh the current level after a delay
+                // Refresh the current level and navigate back to Écouter tab
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
                     levelService.fetchCurrentLevel()
                     feedbackMessage = nil
+                    // Navigate back to Écouter tab (tab 0)
+                    selectedTab = 0
                 }
             }
         }
@@ -255,6 +253,6 @@ extension Text {
 // Preview
 struct AnswerView_Previews: PreviewProvider {
     static var previews: some View {
-        AnswerView(levelService: LevelService())
+        AnswerView(levelService: LevelService(), selectedTab: .constant(1))
     }
 }
