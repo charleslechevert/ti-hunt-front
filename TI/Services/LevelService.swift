@@ -11,6 +11,11 @@ class LevelService: ObservableObject {
     private let baseURL = "http://192.168.1.50:5001"
     
     
+    func updateLevelFromWebSocket(_ level: Int) {
+        currentLevel = level
+    }
+    
+    
     func fetchCurrentLevel() {
         guard let url = URL(string: "\(baseURL)/getLevel") else {
             errorMessage = "Invalid URL"
